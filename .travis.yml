@@ -1,8 +1,16 @@
 language: node_js
 node_js:
-  - 0.12
+  - '6'
+install:
+  - npm install
 script:
-  - echo "Welcome to CodeFlight"
+  - npm run unit
+before_deploy:
+  - npm run build
 deploy:
+  skip_cleanup: true
   provider: surge
-  domain: foreign-exchange-prototype-codeflight.surge.sh
+  project: ./dist/
+  domain: foreign-exchange-prototype.surge.sh
+  on:
+    branch: master
