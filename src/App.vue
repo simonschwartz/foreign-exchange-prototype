@@ -1,11 +1,10 @@
 <template>
   <div id="app">
-    <exchange-calculator></exchange-calculator>
+    <exchange-calculator v-bind:rates="rates"></exchange-calculator>
   </div>
 </template>
 
 <script>
-import rates from './exchange-rate-service'
 import ExchangeCalculator from './components/ExchangeCalculator'
 
 export default {
@@ -15,12 +14,17 @@ export default {
   },
   data () {
     return {
-      rates: rates.exchange_rates
+      rates: {}
     }
   },
-
-  ready: function () {
-    rates.getRates(this)
+  created: function () {
+    var url = 'http://api.fixer.io/latest'
+    this.$http.get(url).then(response => {
+      this.rates = response.body.rates
+      console.log('success')
+    }, (response) => {
+      console.log('fail')
+    })
   }
 }
 </script>

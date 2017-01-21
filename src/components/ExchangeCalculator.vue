@@ -1,18 +1,40 @@
 <template>
   <div class="exchange-calculator">
-    <input v-on:keyup="foo2" v-model.number="from_money" type="number">
+    I'm sending
+    <input
+      v-on:keyup="covertForwards"
+      v-model.number="from_money"
+      type="number">
+
+    from
+
     <select v-model="from_country">
-      <option v-bind:value="1.4115">Australia</option>
-      <option>B</option>
-      <option>C</option>
+      <option v-bind:value="rates.AUD">Australia</option>
+      <option v-bind:value="rates.JPY">Japan</option>
+      <option v-bind:value="rates.INR">India</option>
+      <option v-bind:value="rates.USD">United States</option>
+      <option v-bind:value="rates.NZD">New Zealand</option>
+      <option v-bind:value="rates.GBP">United Kingdom</option>
     </select>
-    <input v-on:keyup="foo" v-model.number="to_money" type="number">
+
+    <br />
+    at a rate of {{exchangeRate}}
+    <br />
+
+    The recepient will receive
+    <input
+      v-on:keyup="covertBackwards"
+      v-model.number="to_money"
+      type="number">
+    to
     <select v-model="to_country">
-      <option v-bind:value="122.47">India</option>
-      <option>E</option>
-      <option>F</option>
+      <option v-bind:value="rates.AUD">Australia</option>
+      <option v-bind:value="rates.JPY">Japan</option>
+      <option v-bind:value="rates.INR">India</option>
+      <option v-bind:value="rates.USD">United States</option>
+      <option v-bind:value="rates.NZD">New Zealand</option>
+      <option v-bind:value="rates.GBP">United Kingdom</option>
     </select>
-    {{exchangeRate}}
   </div>
 </template>
 
@@ -30,18 +52,20 @@ export default {
       exchangeR: ''
     }
   },
+  props: ['rates'],
   computed: {
     exchangeRate: function () {
       let fromCalc = (1 / this.from_rate)
       let toCalc = (1 / this.to_rate)
       this.exchangeR = fromCalc / toCalc
+      return fromCalc / toCalc
     }
   },
   methods: {
-    foo: function () {
-      this.from_money = this.to_money * this.exchangeR
+    covertBackwards: function () {
+      this.from_money = (this.to_money / this.exchangeR)
     },
-    foo2: function () {
+    covertForwards: function () {
       this.to_money = this.from_money * this.exchangeR
     }
   },
@@ -49,12 +73,8 @@ export default {
     from_country: function () {
       this.from_rate = this.from_country
     },
-    from_money: function () {
-    },
     to_country: function () {
       this.to_rate = this.to_country
-    },
-    to_money: function () {
     }
   }
 }
