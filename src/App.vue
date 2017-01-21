@@ -1,17 +1,26 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <hello></hello>
+    <exchange-calculator></exchange-calculator>
   </div>
 </template>
 
 <script>
-import Hello from './components/Hello'
+import rates from './exchange-rate-service'
+import ExchangeCalculator from './components/ExchangeCalculator'
 
 export default {
   name: 'app',
   components: {
-    Hello
+    ExchangeCalculator
+  },
+  data () {
+    return {
+      rates: rates.exchange_rates
+    }
+  },
+
+  ready: function () {
+    rates.getRates(this)
   }
 }
 </script>
