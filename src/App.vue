@@ -2,7 +2,6 @@
   <div id="app">
     <app-header></app-header>
     <exchange-calculator v-bind:rates="rates"></exchange-calculator>
-    <form-button></form-button>
   </div>
 </template>
 
@@ -55,3 +54,6 @@ body {
 <style src="semantic-ui-css/components/input.min.css"></style>
 <style src="semantic-ui-css/components/label.min.css"></style>
 <style src="semantic-ui-css/components/button.min.css"></style>
+<style src="semantic-ui-css/components/message.min.css"></style>
+<style src="semantic-ui-css/components/segment.min.css"></style>
+<style src="semantic-ui-css/components/statistic.min.css"></style>

@@ -1,23 +1,53 @@
 <template>
-  <form class="exchange-calculator ui form">
+<div>
+  <form class="exchange-calculator ui form attached fluid segment">
     <fieldset>
-    <legend>I'm sending money from:</legend>
-    <div class="two fields">
-      <div class="field">
-        <label for="send_amount">Amount to send</label>
+      <legend>I'm sending money from:</legend>
+      <div class="two fields">
+        <div class="field">
+          <label for="send_amount">Amount to send</label>
+          <div class="ui labeled input">
+            <div class="ui label">$</div>
+            <input
+              v-on:keyup="covertForwards"
+              v-model.number="from_money"
+              type="number"
+              id="send_amount">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="from_country">Sending from country</label>
+          <select v-model="from_country" id="from_country">
+            <option v-bind:value="rates.AUD">Australia</option>
+            <option v-bind:value="rates.JPY">Japan</option>
+            <option v-bind:value="rates.INR">India</option>
+            <option v-bind:value="rates.USD">United States</option>
+            <option v-bind:value="rates.NZD">New Zealand</option>
+            <option v-bind:value="rates.GBP">United Kingdom</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>The recepient will receive</legend>
+      <div class="two fields">
+        <div class="field">
+          <label for="received_amount">Amount received</label>
         <div class="ui labeled input">
           <div class="ui label">$</div>
           <input
-            v-on:keyup="covertForwards"
-            v-model.number="from_money"
+            v-on:keyup="covertBackwards"
+            v-model.number="to_money"
             type="number"
-            id="send_amount">
+            id="received_amount">
         </div>
       </div>
 
       <div class="field">
-        <label for="from_country">Sending from country</label>
-        <select v-model="from_country" id="from_country">
+        <label for="to_country">Destination country</label>
+        <select v-model="to_country" id="to_country">
           <option v-bind:value="rates.AUD">Australia</option>
           <option v-bind:value="rates.JPY">Japan</option>
           <option v-bind:value="rates.INR">India</option>
@@ -27,41 +57,32 @@
         </select>
       </div>
     </div>
-
   </fieldset>
-
-  <fieldset>
-    <legend>The recepient will receive</legend>
-    <div class="two fields">
-      <div class="field">
-        <label for="received_amount">Amount received</label>
-      <div class="ui labeled input">
-        <div class="ui label">$</div>
-        <input
-          v-on:keyup="covertBackwards"
-          v-model.number="to_money"
-          type="number"
-          id="received_amount">
-      </div>
-    </div>
-
-    <div class="field">
-      <label for="to_country">Destination country</label>
-    <select v-model="to_country" id="to_country">
-      <option v-bind:value="rates.AUD">Australia</option>
-      <option v-bind:value="rates.JPY">Japan</option>
-      <option v-bind:value="rates.INR">India</option>
-      <option v-bind:value="rates.USD">United States</option>
-      <option v-bind:value="rates.NZD">New Zealand</option>
-      <option v-bind:value="rates.GBP">United Kingdom</option>
-    </select>
-  </div>
-</div>
-</fieldset>
-
-    <p>Current exchange rate: {{exchangeRate}}</p>
-
   </form>
+  <div class="ui bottom attached message">
+
+  <dl>
+    <dt>
+      <div class="ui small statistic">
+        <div class="label">
+          Total transaction cost
+        </div>
+        <div class="value">
+          ${{transactionFee + this.from_money}}
+        </div>
+      </div>
+    </dt>
+    <dd>Amount sending: ${{this.from_money}}</dd>
+    <dd>Our 2% transaction fee: ${{transactionFee}}</dd>
+    <dd>Exchange rate: {{exchangeRate}}</dd>
+  </dl>
+
+  <button class="ui primary button">
+    Next
+  </button>
+
+</div>
+</div>
 </template>
 
 <script>
@@ -71,20 +92,21 @@ export default {
     return {
       from_money: '20',
       from_country: '',
-      from_rate: '',
       to_money: '',
       to_country: '',
-      to_rate: '',
       exchangeR: ''
     }
   },
   props: ['rates'],
   computed: {
     exchangeRate: function () {
-      let fromCalc = (1 / this.from_rate)
-      let toCalc = (1 / this.to_rate)
+      let fromCalc = (1 / this.from_country)
+      let toCalc = (1 / this.to_country)
       this.exchangeR = fromCalc / toCalc
       return fromCalc / toCalc
+    },
+    transactionFee: function () {
+      return this.from_money * 0.02
     }
   },
   methods: {
@@ -96,12 +118,6 @@ export default {
     }
   },
   watch: {
-    from_country: function () {
-      this.from_rate = this.from_country
-    },
-    to_country: function () {
-      this.to_rate = this.to_country
-    },
     exchangeR: function () {
       this.to_money = this.from_money * this.exchangeR
     }
@@ -129,12 +145,46 @@ a {
   color: #42b983;
 }
 
+form {
+  max-width: 100%;
+}
+
+fieldset {
+  border: 0;
+  max-width: 100%;
+}
+
+legend {
+  font-size: 1.1rem;
+}
+
+.ui.attached.segment {
+  width: auto;
+  max-width: auto;
+}
+
 select {
   font-size: 16px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background:url(data:image/gif;base64,R0lGODlhCwALAJEAAAAAAP///xUVFf///yH5BAEAAAMALAAAAAALAAsAAAIPnI+py+0/hJzz0IruwjsVADs=) no-repeat 99% 40%!important;
+  background:url(data:image/gif;base64,R0lGODlhCwALAJEAAAAAAP///xUVFf///yH5BAEAAAMALAAAAAALAAsAAAIPnI+py+0/hJzz0IruwjsVADs=) no-repeat 98% 40%!important;
+}
 
- }
+.ui.statistic>.label, .ui.statistics .statistic>.label {
+   text-align: left;
+   text-transform: none;
+}
+
+.ui.statistic>.value, .ui.statistics .statistic>.value {
+  text-align: left;
+}
+
+dt {
+  margin-bottom: 1em;
+}
+
+dd {
+  margin-left: 0;
+}
 </style>
