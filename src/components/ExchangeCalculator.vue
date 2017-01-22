@@ -59,7 +59,7 @@
     </div>
   </fieldset>
   </form>
-  <div class="ui bottom attached message">
+  <div class="ui bottom attached message" id="bottom-container">
 
   <dl>
     <dt>
@@ -77,24 +77,44 @@
     <dd>Exchange rate: {{exchangeRate}}</dd>
   </dl>
 
-  <button class="ui primary button">
-    Next
+  <transition name="fade">
+  <bank-details-form v-if="show_bank_details"></bank-details-form>
+  </transition>
+
+  <transition name="fade">
+  <button
+    v-if="show_bank_details"
+    v-on:click="showBankForm"
+    class="ui primary button">
+    Send money
   </button>
+  <button
+    v-else
+    v-on:click="showBankForm"
+    class="ui primary button">
+    Next: Payment
+  </button>
+  </transition>
 
 </div>
 </div>
 </template>
 
 <script>
+import BankDetailsForm from './BankDetailsForm'
 export default {
   name: 'exchange-calculator',
+  components: {
+    BankDetailsForm
+  },
   data () {
     return {
       from_money: '20',
       from_country: '',
       to_money: '',
       to_country: '',
-      exchangeR: ''
+      exchangeR: '',
+      show_bank_details: false
     }
   },
   props: ['rates'],
@@ -115,6 +135,9 @@ export default {
     },
     covertForwards: function () {
       this.to_money = this.from_money * this.exchangeR
+    },
+    showBankForm: function () {
+      this.show_bank_details = true
     }
   },
   watch: {
@@ -149,15 +172,6 @@ form {
   max-width: 100%;
 }
 
-fieldset {
-  border: 0;
-  max-width: 100%;
-}
-
-legend {
-  font-size: 1.1rem;
-}
-
 .ui.attached.segment {
   width: auto;
   max-width: auto;
@@ -186,5 +200,16 @@ dt {
 
 dd {
   margin-left: 0;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: max-height .4s ease;
+  max-height: 20em;
+  overflow: hidden;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+  max-height: 0;
+  padding: 0 10px;
+  opacity: 0;
 }
 </style>

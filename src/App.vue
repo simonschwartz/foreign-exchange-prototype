@@ -2,20 +2,21 @@
   <div id="app">
     <app-header></app-header>
     <exchange-calculator v-bind:rates="rates"></exchange-calculator>
+
   </div>
 </template>
 
 <script>
 import AppHeader from './components/AppHeader'
 import ExchangeCalculator from './components/ExchangeCalculator'
-import FormButton from './components/FormButton'
+import BankDetailsForm from './components/BankDetailsForm'
 
 export default {
   name: 'app',
   components: {
     AppHeader,
     ExchangeCalculator,
-    FormButton
+    BankDetailsForm
   },
   data () {
     return {
@@ -47,6 +48,16 @@ export default {
 
 body {
   margin: 0;
+  margin-bottom: 5em;
+}
+
+fieldset {
+  border: 0;
+  max-width: 100%;
+}
+
+legend {
+  font-size: 1.1rem;
 }
 </style>
 
