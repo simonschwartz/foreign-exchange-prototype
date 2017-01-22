@@ -87,6 +87,10 @@ input {
   min-width: 100%;
 }
 
+.field input[type=text] {
+  margin-bottom: 0.75em;
+}
+
 .ui.button {
   padding-left: 40px;
 }
