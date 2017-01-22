@@ -68,3 +68,5 @@ legend {
 <style src="semantic-ui-css/components/message.min.css"></style>
 <style src="semantic-ui-css/components/segment.min.css"></style>
 <style src="semantic-ui-css/components/statistic.min.css"></style>
+<style src="semantic-ui-css/components/loader.min.css"></style>
+<style src="semantic-ui-css/components/dimmer.min.css"></style>

@@ -66,7 +66,6 @@ export default {
 <style scoped>
 
 form {
-  margin-top: 2em;
   border-top: 1px solid #ccc;
   padding-top: 1.5em;
 }
