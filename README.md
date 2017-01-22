@@ -8,6 +8,8 @@ This project uses live foreign exchange data from [fixer.io](http://fixer.io/)
 
 This prototype is for demonstration purposes only.
 
+There are many ways this prototype could be improved. I have logged these improvements as [issues for this project](https://github.com/simonschwartz/foreign-exchange-prototype/issues)
+
 ## Build Setup
 
 ``` bash
