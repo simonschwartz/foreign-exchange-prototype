@@ -84,14 +84,35 @@ fieldset {
 
 input {
   box-sizing: border-box;
+  max-width: 100%;
+  min-width: 100%;
 }
 
 .ui.button {
   padding-left: 40px;
 }
 
+@media (max-width: 580px) {
+  form {
+    margin-bottom: 1em;
+  }
+  .ui.buttons {
+    display: block;
+    border: 0;
+  }
+  .ui.button {
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 0;
+  }
+  .ui.buttons .button:first-child {
+    border-radius: 0;
+    border-left: 1px solid #ccc;
+  }
+}
+
 .ui.button.active {
-  border: 2px solid #2185D0;
+  outline: 2px solid #2185D0;
 }
 
 .ui.basic.buttons > .visa {
