@@ -78,18 +78,30 @@
   </dl>
 
   <transition name="fade">
-  <bank-details-form v-if="show_bank_details"></bank-details-form>
+  <div class="ui basic segment">
+    <div
+      class="ui inverted dimmer"
+      v-bind:class="{ active: sending_money }">
+      <div class="ui text loader">Processing your transfer</div>
+    </div>
+    <bank-details-form v-if="show_bank_details"></bank-details-form>
+
+  </div>
+  </transition>
+
+  <transition name="fade">
+  <money-sent-message v-if="money_sent"></money-sent-message>
   </transition>
 
   <transition name="fade">
   <button
     v-if="show_bank_details"
-    v-on:click="showBankForm"
+    v-on:click="sendMoney"
     class="ui primary button">
     Send money
   </button>
   <button
-    v-else
+    v-if="!money_sent"
     v-on:click="showBankForm"
     class="ui primary button">
     Next: Payment
@@ -97,15 +109,16 @@
   </transition>
 
 </div>
-</div>
 </template>
 
 <script>
 import BankDetailsForm from './BankDetailsForm'
+import MoneySentMessage from './MoneySentMessage'
 export default {
   name: 'exchange-calculator',
   components: {
-    BankDetailsForm
+    BankDetailsForm,
+    MoneySentMessage
   },
   data () {
     return {
@@ -114,7 +127,9 @@ export default {
       to_money: '',
       to_country: '',
       exchangeR: '',
-      show_bank_details: false
+      show_bank_details: false,
+      sending_money: false,
+      money_sent: false
     }
   },
   props: ['rates'],
@@ -138,6 +153,14 @@ export default {
     },
     showBankForm: function () {
       this.show_bank_details = true
+    },
+    sendMoney: function () {
+      this.sending_money = true
+      setTimeout(function () {
+        this.money_sent = true
+        this.sending_money = false
+        this.show_bank_details = false
+      }.bind(this), 2500)
     }
   },
   watch: {
@@ -150,23 +173,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
 
 form {
   max-width: 100%;
@@ -175,6 +181,10 @@ form {
 .ui.attached.segment {
   width: auto;
   max-width: auto;
+}
+
+.ui.basic.segment {
+  padding: 0;
 }
 
 select {
@@ -212,4 +222,5 @@ dd {
   padding: 0 10px;
   opacity: 0;
 }
+
 </style>
