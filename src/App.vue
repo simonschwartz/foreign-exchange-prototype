@@ -1,16 +1,22 @@
 <template>
   <div id="app">
+    <app-header></app-header>
     <exchange-calculator v-bind:rates="rates"></exchange-calculator>
+    <form-button></form-button>
   </div>
 </template>
 
 <script>
+import AppHeader from './components/AppHeader'
 import ExchangeCalculator from './components/ExchangeCalculator'
+import FormButton from './components/FormButton'
 
 export default {
   name: 'app',
   components: {
-    ExchangeCalculator
+    AppHeader,
+    ExchangeCalculator,
+    FormButton
   },
   data () {
     return {
@@ -34,8 +40,18 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+body {
+  margin: 0;
 }
 </style>
+
+<style src="semantic-ui-css/components/form.min.css"></style>
+<style src="semantic-ui-css/components/input.min.css"></style>
+<style src="semantic-ui-css/components/label.min.css"></style>
+<style src="semantic-ui-css/components/button.min.css"></style>
