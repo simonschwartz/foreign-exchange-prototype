@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="exchange-tool">
   <form class="exchange-calculator ui form attached fluid segment">
     <fieldset>
       <legend>I'm sending money from:</legend>
@@ -85,7 +85,10 @@
       <div class="ui text loader">Processing your transfer</div>
     </div>
     <bank-details-form v-if="show_bank_details"></bank-details-form>
-
+    <div class="disclaimer">
+      <p>It will take 2-3 business days to complete your transaction.</p>
+      <p>You will be sent a tracking code with your payment confirmation email.</p>
+    </div>
   </div>
   </transition>
 
@@ -173,6 +176,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.exchange-tool {
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 form {
   max-width: 100%;

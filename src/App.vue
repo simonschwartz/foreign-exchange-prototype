@@ -2,7 +2,6 @@
   <div id="app">
     <app-header></app-header>
     <exchange-calculator v-bind:rates="rates"></exchange-calculator>
-
   </div>
 </template>
 
@@ -40,9 +39,6 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  max-width: 760px;
-  margin-left: auto;
-  margin-right: auto;
   color: #2c3e50;
 }
 
